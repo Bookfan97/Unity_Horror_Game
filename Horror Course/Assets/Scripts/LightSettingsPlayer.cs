@@ -11,11 +11,14 @@ public class LightSettingsPlayer : MonoBehaviour
     [SerializeField] private PostProcessProfile Standard;
     [SerializeField] private PostProcessProfile NightVision;
     [SerializeField] private GameObject NightVisionHUD;
+    [SerializeField] private GameObject Flashlight;
     private bool NightVisionActive = false;
+    private bool FlashlightActive = false;
 
     private void Start()
     {
         NightVisionHUD.gameObject.SetActive(false);
+        Flashlight.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,6 +38,12 @@ public class LightSettingsPlayer : MonoBehaviour
                 currentVolume.profile = Standard;
                 NightVisionHUD.gameObject.SetActive(false);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            FlashlightActive = !FlashlightActive;
+            Flashlight.gameObject.SetActive(FlashlightActive);
         }
     }
 }
