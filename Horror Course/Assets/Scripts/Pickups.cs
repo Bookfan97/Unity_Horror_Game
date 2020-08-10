@@ -24,7 +24,11 @@ public class Pickups : MonoBehaviour
             if (hit.transform.tag == "Apple")
             {
                 canSeePickup = true;
-                RayDistance = 1000f;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Destroy(hit.transform.gameObject);
+                    SaveScript.Apples += 1;
+                }
             }
             else
             {
