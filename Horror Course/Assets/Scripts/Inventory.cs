@@ -6,19 +6,62 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryMenu;
-    [SerializeField] private GameObject appleImage;
-    [SerializeField] private GameObject appleButton;
-    [SerializeField] private GameObject batteryImage;
-    [SerializeField] private GameObject batteryButton;
+    [SerializeField] private GameObject[] appleImage;
+    [SerializeField] private GameObject[] appleButton;
+    [SerializeField] private GameObject[] batteryImage;
+    [SerializeField] private GameObject[] batteryButton;
     private bool InventoryActive = false;
     // Start is called before the first frame update
     void Start()
     {
         InventoryMenu.gameObject.SetActive(false);
-        appleImage.gameObject.SetActive(false);
-        appleButton.gameObject.SetActive(false);
+        SetApples(appleButton.Length,false);
+        SetBatteries(batteryButton.Length, false);
         InventoryActive = false;
         Cursor.visible = false;
+    }
+
+    private void SetBatteries(int numMax, bool toSet)
+    {
+        if (numMax > batteryButton.Length)
+        {
+            numMax = batteryButton.Length;
+        }
+        for (int i = 0; i < numMax; i++)
+        {
+            batteryImage[i].gameObject.SetActive(toSet);
+            batteryButton[i].gameObject.SetActive(toSet);
+        }
+
+        if (numMax != batteryButton.Length)
+        {
+            for (int i = numMax; i < batteryImage.Length; i++)
+            {
+                batteryImage[i].gameObject.SetActive(!toSet);
+                batteryButton[i].gameObject.SetActive(!toSet);
+            }
+        }
+    }
+
+    private void SetApples(int numMax, bool toSet)
+    {
+        if (numMax > appleButton.Length)
+        {
+            numMax = appleButton.Length;
+        }
+        for (int i = 0; i < numMax; i++)
+        {
+            appleImage[i].gameObject.SetActive(toSet);
+            appleButton[i].gameObject.SetActive(toSet);
+        }
+        if (numMax != appleButton.Length)
+        {
+            for (int i = numMax; i < appleImage.Length; i++)
+            {
+                appleImage[i].gameObject.SetActive(!toSet);
+                appleButton[i].gameObject.SetActive(!toSet);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -45,13 +88,11 @@ public class Inventory : MonoBehaviour
     {
         if (SaveScript.Apples >= 1)
         {
-            appleImage.gameObject.SetActive(true);
-            appleButton.gameObject.SetActive(true);
+            SetApples(SaveScript.Apples, true);
         }        
         else if (SaveScript.Batteries >= 1)
         {
-            batteryImage.gameObject.SetActive(true);
-            batteryButton.gameObject.SetActive(true);
+            SetBatteries(SaveScript.Batteries, true);
         }
     }
 
@@ -62,19 +103,19 @@ public class Inventory : MonoBehaviour
         --SaveScript.Apples;
         if (SaveScript.Apples <=0)
         {
-            appleImage.gameObject.SetActive(false);
-            appleButton.gameObject.SetActive(false);
+            SaveScript.Apples = 0;
+            SetApples(appleButton.Length, false);
         }
     }    
     public void BatteryUpdate()
     {
-        SaveScript.currentBatteryPower += 1;
+        SaveScript.currentBatteryPower += 15;
         SaveScript.batteryChanged = true;
         --SaveScript.Batteries;
         if (SaveScript.Batteries <=0)
         {
-            batteryImage.gameObject.SetActive(false);
-            batteryButton.gameObject.SetActive(false);
+            SaveScript.Batteries = 0;
+            SetBatteries(batteryButton.Length, false);
         }
     }
 }
