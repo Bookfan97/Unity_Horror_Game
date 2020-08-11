@@ -20,5 +20,10 @@ public class BatteryPower : MonoBehaviour
             SaveScript.currentBatteryPower = currentPower;
             //Debug.Log(SaveScript.currentBatteryPower);
         }
+        if (SaveScript.batteryChanged)
+        {
+            SaveScript.healthChanged = false;
+            BatteryUI.fillAmount = SaveScript.currentBatteryPower;
+        }
     }
 }

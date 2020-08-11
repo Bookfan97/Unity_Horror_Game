@@ -8,7 +8,9 @@ public class SaveScript : MonoBehaviour
 {
     public static int PlayerHealth = 85;
     public static bool healthChanged = false;
+    public static bool batteryChanged = false;
     public static float currentBatteryPower = 15.0f;
     public static bool FlashlightOn = false, NightVisionOn = false;
     public static int Apples = 0;
+    public static int Batteries = 0;
 }
