@@ -7,6 +7,7 @@ public class Pickups : MonoBehaviour
     private RaycastHit hit;
     [SerializeField] private float Distance = 4.0f;
     [SerializeField] private GameObject pickupMessage;
+    private AudioSource AudioPlayer;
     private float RayDistance;
     private bool canSeePickup = false;
     // Start is called before the first frame update
@@ -14,6 +15,7 @@ public class Pickups : MonoBehaviour
     {
         pickupMessage.gameObject.SetActive(false);
         RayDistance = Distance;
+        AudioPlayer = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -29,6 +31,7 @@ public class Pickups : MonoBehaviour
                     if (SaveScript.Apples < 6)
                     {
                         Destroy(hit.transform.gameObject); 
+                        AudioPlayer.Play();
                         SaveScript.Apples++;
                     }
                     
@@ -42,6 +45,7 @@ public class Pickups : MonoBehaviour
                     if (SaveScript.Batteries < 4)
                     {
                         Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
                         SaveScript.Batteries++;
                     }
                 }

@@ -6,6 +6,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryMenu;
+    private AudioSource AudioPlayer;
+    [SerializeField] private AudioClip appleBite; 
+    [SerializeField] private AudioClip batteryChange;
     [SerializeField] private GameObject[] appleImage;
     [SerializeField] private GameObject[] appleButton;
     [SerializeField] private GameObject[] batteryImage;
@@ -17,6 +20,7 @@ public class Inventory : MonoBehaviour
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
         SetBatteries(batteryButton.Length, false);
+        AudioPlayer = GetComponent<AudioSource>();
         InventoryActive = false;
         Cursor.visible = false;
     }
@@ -98,24 +102,45 @@ public class Inventory : MonoBehaviour
 
     public void HealthUpdate()
     {
-        SaveScript.PlayerHealth += 10;
-        SaveScript.healthChanged = true;
-        --SaveScript.Apples;
-        if (SaveScript.Apples <=0)
+        if (SaveScript.PlayerHealth < 100)
         {
-            SaveScript.Apples = 0;
-            SetApples(appleButton.Length, false);
+            SaveScript.PlayerHealth += 10;
+            SaveScript.healthChanged = true;
+            --SaveScript.Apples;
+            AudioPlayer.clip = appleBite;
+            AudioPlayer.Stop();
+            AudioPlayer.Play();
+            if (SaveScript.PlayerHealth > 100)
+            {
+                SaveScript.PlayerHealth = 100;
+            }
+            if (SaveScript.Apples <= 0)
+            {
+                SaveScript.Apples = 0;
+                SetApples(appleButton.Length, false);
+            }
         }
-    }    
+    }
+
     public void BatteryUpdate()
     {
-        SaveScript.currentBatteryPower += 15;
-        SaveScript.batteryChanged = true;
-        --SaveScript.Batteries;
-        if (SaveScript.Batteries <=0)
+        if (SaveScript.currentBatteryPower < 15.0f)
         {
-            SaveScript.Batteries = 0;
-            SetBatteries(batteryButton.Length, false);
+            SaveScript.currentBatteryPower += 15;
+            SaveScript.batteryChanged = true;
+            --SaveScript.Batteries;
+            AudioPlayer.clip = batteryChange;
+            AudioPlayer.Stop();
+            AudioPlayer.Play();
+            if (SaveScript.currentBatteryPower > 15.0f)
+            {
+                SaveScript.currentBatteryPower = 15.0f;
+            }
+            if (SaveScript.Batteries <= 0)
+            {
+                SaveScript.Batteries = 0;
+                SetBatteries(batteryButton.Length, false);
+            }
         }
     }
 }
