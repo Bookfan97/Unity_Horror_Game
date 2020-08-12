@@ -12,7 +12,17 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject[] appleImage;
     [SerializeField] private GameObject[] appleButton;
     [SerializeField] private GameObject[] batteryImage;
-    [SerializeField] private GameObject[] batteryButton;
+    [SerializeField] private GameObject[] batteryButton;   
+    [SerializeField] private GameObject KnifeImage;
+    [SerializeField] private GameObject KnifeButton;
+    [SerializeField] private GameObject BatImage;
+    [SerializeField] private GameObject BatButton;
+    [SerializeField] private GameObject AxeImage;
+    [SerializeField] private GameObject AxeButton;
+    [SerializeField] private GameObject HandgunImage;
+    [SerializeField] private GameObject HandgunButton;
+    [SerializeField] private GameObject CrossbowImage;
+    [SerializeField] private GameObject CrossbowButton;
     private bool InventoryActive = false;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +30,16 @@ public class Inventory : MonoBehaviour
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
         SetBatteries(batteryButton.Length, false);
+        KnifeImage.gameObject.SetActive(false);
+        KnifeButton.gameObject.SetActive(false);
+        BatImage.gameObject.SetActive(false);
+        BatButton.gameObject.SetActive(false);
+        AxeImage.gameObject.SetActive(false);
+        AxeButton.gameObject.SetActive(false);
+        HandgunImage.gameObject.SetActive(false);
+        HandgunButton.gameObject.SetActive(false);
+        CrossbowImage.gameObject.SetActive(false);
+        CrossbowButton.gameObject.SetActive(false);
         AudioPlayer = GetComponent<AudioSource>();
         InventoryActive = false;
         Cursor.visible = false;
@@ -71,17 +91,19 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))// || Input.GetKeyDown(KeyCode.I))
         {
             InventoryActive = !InventoryActive;
             InventoryMenu.gameObject.SetActive(InventoryActive);
             Cursor.visible = InventoryActive;
             if (InventoryActive)
             {
+                //Cursor.visible = true;
                 Time.timeScale = 0.0f;
             }
             else
             {
+                //Cursor.visible = false;
                 Time.timeScale = 1f;
             }
         }
@@ -94,9 +116,34 @@ public class Inventory : MonoBehaviour
         {
             SetApples(SaveScript.Apples, true);
         }        
-        else if (SaveScript.Batteries >= 1)
+        if (SaveScript.Batteries >= 1)
         {
             SetBatteries(SaveScript.Batteries, true);
+        }
+        if (SaveScript.Knife)
+        {
+             KnifeImage.gameObject.SetActive(true);
+             KnifeButton.gameObject.SetActive(true);
+        }        
+        if (SaveScript.Bat)
+        {
+            BatImage.gameObject.SetActive(true); 
+            BatButton.gameObject.SetActive(true);
+        }        
+        if (SaveScript.Axe)
+        { 
+            AxeImage.gameObject.SetActive(true);
+            AxeButton.gameObject.SetActive(true);
+        }        
+        if (SaveScript.HandGun)
+        {
+            HandgunImage.gameObject.SetActive(true);
+            HandgunButton.gameObject.SetActive(true);
+        }        
+        if (SaveScript.Crossbow)
+        {        
+            CrossbowImage.gameObject.SetActive(true);
+            CrossbowButton.gameObject.SetActive(true);
         }
     }
 

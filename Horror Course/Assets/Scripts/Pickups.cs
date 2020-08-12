@@ -55,6 +55,13 @@ public class Pickups : MonoBehaviour
                 canSeePickup = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (!SaveScript.Knife)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play(); 
+                        SaveScript.Knife = true;
+                    }
+                    
                 }
             }           
             else if (hit.transform.tag == "Axe")
@@ -62,6 +69,12 @@ public class Pickups : MonoBehaviour
                 canSeePickup = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (!SaveScript.Axe)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.Axe = true;
+                    }
                 }
             }            
             else if (hit.transform.tag == "Bat")
@@ -69,20 +82,38 @@ public class Pickups : MonoBehaviour
                 canSeePickup = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (!SaveScript.Bat)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.Bat = true;
+                    }
                 }
-            }            
+            }
             else if (hit.transform.tag == "Crossbow")
             {
                 canSeePickup = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (!SaveScript.Crossbow)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.Crossbow = true;
+                    }
                 }
-            }            
+            }
             else if (hit.transform.tag == "Handgun")
             {
                 canSeePickup = true;
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (!SaveScript.HandGun)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.HandGun = true;
+                    }
                 }
             }
             else

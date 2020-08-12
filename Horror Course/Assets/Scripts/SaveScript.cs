@@ -13,4 +13,9 @@ public class SaveScript : MonoBehaviour
     public static bool FlashlightOn = false, NightVisionOn = false;
     public static int Apples = 0;
     public static int Batteries = 0;
+    public static bool Knife = false;
+    public static bool Bat = false;
+    public static bool Axe = false;
+    public static bool HandGun = false;
+    public static bool Crossbow = false;
 }
