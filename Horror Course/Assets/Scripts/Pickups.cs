@@ -49,7 +49,33 @@ public class Pickups : MonoBehaviour
                         SaveScript.Batteries++;
                     }
                 }
+            }                  
+            else if (hit.transform.tag == "BulletClip")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (SaveScript.BulletClips < 4)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.BulletClips++;
+                    }
+                }
             }            
+            else if (hit.transform.tag == "ArrowRefill")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!SaveScript.ArrowRefill)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play(); 
+                        SaveScript.ArrowRefill = true;
+                    }
+                }
+            }               
             else if (hit.transform.tag == "Knife")
             {
                 canSeePickup = true;
@@ -61,7 +87,6 @@ public class Pickups : MonoBehaviour
                         AudioPlayer.Play(); 
                         SaveScript.Knife = true;
                     }
-                    
                 }
             }           
             else if (hit.transform.tag == "Axe")
@@ -113,6 +138,45 @@ public class Pickups : MonoBehaviour
                         Destroy(hit.transform.gameObject);
                         AudioPlayer.Play();
                         SaveScript.HandGun = true;
+                    }
+                }
+            }            
+            else if (hit.transform.tag == "House Key")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!SaveScript.HouseKey)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.HouseKey = true;
+                    }
+                }
+            }            
+            else if (hit.transform.tag == "Cabin Key")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!SaveScript.CabinKey)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.CabinKey = true;
+                    }
+                }
+            }
+            else if (hit.transform.tag == "Room Key")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!SaveScript.RoomKey)
+                    {
+                        Destroy(hit.transform.gameObject);
+                        AudioPlayer.Play();
+                        SaveScript.RoomKey = true;
                     }
                 }
             }
