@@ -49,6 +49,41 @@ public class Pickups : MonoBehaviour
                         SaveScript.Batteries++;
                     }
                 }
+            }            
+            else if (hit.transform.tag == "Knife")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                }
+            }           
+            else if (hit.transform.tag == "Axe")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                }
+            }            
+            else if (hit.transform.tag == "Bat")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                }
+            }            
+            else if (hit.transform.tag == "Crossbow")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                }
+            }            
+            else if (hit.transform.tag == "Handgun")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                }
             }
             else
             {
