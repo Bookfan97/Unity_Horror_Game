@@ -10,6 +10,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private AudioClip appleBite; 
     [SerializeField] private AudioClip batteryChange;
     [SerializeField] private AudioClip weaponChange;
+    [SerializeField] private AudioClip gunShot;
+    [SerializeField] private AudioClip arrowShot;
     [SerializeField] private GameObject[] appleImage;
     [SerializeField] private GameObject[] appleButton;
     [SerializeField] private GameObject[] batteryImage;
@@ -20,6 +22,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject Knife;
     [SerializeField] private GameObject Bat;
     [SerializeField] private GameObject Axe;
+    [SerializeField] private GameObject Handgun;
+    [SerializeField] private GameObject Crossbow;
     [SerializeField] private GameObject ArrowRefillImage;
     [SerializeField] private GameObject ArrowRefillButton;   
     [SerializeField] private GameObject KnifeImage;
@@ -36,9 +40,11 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject CabinKeyImage;
     [SerializeField] private GameObject RoomKeyImage;
     private bool InventoryActive = false;
+    [SerializeField] Animator Anim;
     // Start is called before the first frame update
     void Start()
     {
+        Anim = GetComponent<Animator>();
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
         SetBatteries(batteryButton.Length, false);
@@ -273,29 +279,26 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    /*public void EquipKnife()
-    {
-        EquipWeapon(Knife);
-
-    }
-
-    public void EquipAxe()
-    {
-        EquipWeapon(Axe);
-
-    }
-    
-    public void EquipBat()
-    {
-        EquipWeapon(Knife);
-    }*/
-    
-   public void EquipWeapon(GameObject weaponEquip)
+    public void EquipWeapon(GameObject weaponEquip)
     {
         playerArms.gameObject.SetActive(true);
         WeaponsOff();
         weaponEquip.gameObject.SetActive(true);
-        AudioPlayer.clip = weaponChange;
+        if (weaponEquip == Handgun)
+        {
+            Anim.SetBool("Melee", false);
+            AudioPlayer.clip = gunShot;
+        }
+        else if (weaponEquip == Crossbow)
+        {
+            Anim.SetBool("Melee", false);
+            AudioPlayer.clip = arrowShot;
+        }
+        else
+        {
+            Anim.SetBool("Melee", true);
+            AudioPlayer.clip = weaponChange;
+        }
         AudioPlayer.Play();
     }
 
@@ -304,5 +307,7 @@ public class Inventory : MonoBehaviour
        Axe.gameObject.SetActive(false);
        Bat.gameObject.SetActive(false);
        Knife.gameObject.SetActive(false);
+       Handgun.gameObject.SetActive(false);
+       Crossbow.gameObject.SetActive(false);
    }
 }
