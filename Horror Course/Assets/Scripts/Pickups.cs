@@ -7,6 +7,7 @@ public class Pickups : MonoBehaviour
     private RaycastHit hit;
     [SerializeField] private float Distance = 4.0f;
     [SerializeField] private GameObject pickupMessage;
+    [SerializeField] GameObject PlayerArms;
     private AudioSource AudioPlayer;
     private float RayDistance;
     private bool canSeePickup = false;
@@ -14,6 +15,7 @@ public class Pickups : MonoBehaviour
     void Start()
     {
         pickupMessage.gameObject.SetActive(false);
+        PlayerArms.gameObject.SetActive(false);
         RayDistance = Distance;
         AudioPlayer = GetComponent<AudioSource>();
     }

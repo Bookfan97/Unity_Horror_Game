@@ -9,12 +9,17 @@ public class Inventory : MonoBehaviour
     private AudioSource AudioPlayer;
     [SerializeField] private AudioClip appleBite; 
     [SerializeField] private AudioClip batteryChange;
+    [SerializeField] private AudioClip weaponChange;
     [SerializeField] private GameObject[] appleImage;
     [SerializeField] private GameObject[] appleButton;
     [SerializeField] private GameObject[] batteryImage;
     [SerializeField] private GameObject[] batteryButton;     
     [SerializeField] private GameObject[] BulletClipImage;
     [SerializeField] private GameObject[] BulletClipButton;
+    [SerializeField] private GameObject playerArms;
+    [SerializeField] private GameObject Knife;
+    [SerializeField] private GameObject Bat;
+    [SerializeField] private GameObject Axe;
     [SerializeField] private GameObject ArrowRefillImage;
     [SerializeField] private GameObject ArrowRefillButton;   
     [SerializeField] private GameObject KnifeImage;
@@ -267,4 +272,37 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    /*public void EquipKnife()
+    {
+        EquipWeapon(Knife);
+
+    }
+
+    public void EquipAxe()
+    {
+        EquipWeapon(Axe);
+
+    }
+    
+    public void EquipBat()
+    {
+        EquipWeapon(Knife);
+    }*/
+    
+   public void EquipWeapon(GameObject weaponEquip)
+    {
+        playerArms.gameObject.SetActive(true);
+        WeaponsOff();
+        weaponEquip.gameObject.SetActive(true);
+        AudioPlayer.clip = weaponChange;
+        AudioPlayer.Play();
+    }
+
+   private void WeaponsOff()
+   {
+       Axe.gameObject.SetActive(false);
+       Bat.gameObject.SetActive(false);
+       Knife.gameObject.SetActive(false);
+   }
 }
