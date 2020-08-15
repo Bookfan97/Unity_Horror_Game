@@ -222,7 +222,7 @@ public class Inventory : MonoBehaviour
 
     private void CheckAmmo()
     {
-        Debug.Log("SaveScript.BulletClips = "+ SaveScript.BulletClips);
+        //Debug.Log("SaveScript.BulletClips = "+ SaveScript.BulletClips);
         if (SaveScript.BulletClips >= 1)
         {
             SetBulletClips(SaveScript.BulletClips, true);
@@ -281,10 +281,11 @@ public class Inventory : MonoBehaviour
 
     public void EquipWeapon(GameObject weaponEquip)
     {
+        Debug.Log("Weapon :" + weaponEquip);
         playerArms.gameObject.SetActive(true);
         WeaponsOff();
         weaponEquip.gameObject.SetActive(true);
-        if (weaponEquip == Handgun)
+        /*if (weaponEquip == Handgun)
         {
             Anim.SetBool("Melee", false);
             AudioPlayer.clip = gunShot;
@@ -298,7 +299,7 @@ public class Inventory : MonoBehaviour
         {
             Anim.SetBool("Melee", true);
             AudioPlayer.clip = weaponChange;
-        }
+        }*/
         AudioPlayer.Play();
     }
 
