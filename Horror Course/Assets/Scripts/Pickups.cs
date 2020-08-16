@@ -142,6 +142,16 @@ public class Pickups : MonoBehaviour
                         SaveScript.HandGun = true;
                     }
                 }
+            }                  
+            else if (hit.transform.tag == "Door")
+            {
+                canSeePickup = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    //Debug.Log("Door Open: " + hit.transform.gameObject);
+                    hit.transform.gameObject.SendMessage("DoorOpen");
+                    
+                }
             }            
             else if (hit.transform.tag == "House Key")
             {

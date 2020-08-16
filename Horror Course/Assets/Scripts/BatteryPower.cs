@@ -6,9 +6,17 @@ using UnityEngine.UI;
 
 public class BatteryPower : MonoBehaviour
 {
+    public static BatteryPower instance;
     [SerializeField] private Image BatteryUI;
-    [SerializeField] private float DrainTime = 15.0f;
+    [SerializeField] private float DrainTime = 180.0f;
+    [SerializeField] private float MaxBatteryTime = 180.0f;
     [SerializeField] private float currentPower;
+    
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Update is called once per frame
     void Update()
@@ -18,7 +26,7 @@ public class BatteryPower : MonoBehaviour
             BatteryUI.fillAmount -= 1.0f / DrainTime * Time.deltaTime;
             currentPower = BatteryUI.fillAmount;
             SaveScript.currentBatteryPower = currentPower;
-            //Debug.Log(SaveScript.currentBatteryPower);
+            Debug.Log(SaveScript.currentBatteryPower);
         }
         if (SaveScript.batteryChanged)
         {
@@ -26,4 +34,6 @@ public class BatteryPower : MonoBehaviour
             BatteryUI.fillAmount = SaveScript.currentBatteryPower;
         }
     }
+
+    public float MaxBatteryTime1 => MaxBatteryTime;
 }

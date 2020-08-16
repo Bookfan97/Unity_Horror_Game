@@ -16,6 +16,7 @@ TagManager:
   - Room Key
   - BulletClip
   - ArrowRefill
+  - Door
   layers:
   - Default
   - TransparentFX

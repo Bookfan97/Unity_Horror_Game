@@ -40,10 +40,13 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject CabinKeyImage;
     [SerializeField] private GameObject RoomKeyImage;
     private bool InventoryActive = false;
+    private float MaxBattery;
     [SerializeField] Animator Anim;
     // Start is called before the first frame update
     void Start()
     {
+        MaxBattery = BatteryPower.instance.MaxBatteryTime1;
+        Debug.Log(MaxBattery);
         Anim = GetComponent<Animator>();
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
@@ -259,17 +262,17 @@ public class Inventory : MonoBehaviour
 
     public void BatteryUpdate()
     {
-        if (SaveScript.currentBatteryPower < 15.0f)
+        if (SaveScript.currentBatteryPower < MaxBattery)
         {
-            SaveScript.currentBatteryPower += 15;
+            SaveScript.currentBatteryPower += MaxBattery;
             SaveScript.batteryChanged = true;
             --SaveScript.Batteries;
             AudioPlayer.clip = batteryChange;
             AudioPlayer.Stop();
             AudioPlayer.Play();
-            if (SaveScript.currentBatteryPower > 15.0f)
+            if (SaveScript.currentBatteryPower > MaxBattery)
             {
-                SaveScript.currentBatteryPower = 15.0f;
+                SaveScript.currentBatteryPower = MaxBattery;
             }
             if (SaveScript.Batteries <= 0)
             {
