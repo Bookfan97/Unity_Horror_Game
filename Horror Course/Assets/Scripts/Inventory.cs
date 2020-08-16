@@ -225,7 +225,6 @@ public class Inventory : MonoBehaviour
 
     private void CheckAmmo()
     {
-        //Debug.Log("SaveScript.BulletClips = "+ SaveScript.BulletClips);
         if (SaveScript.BulletClips >= 1)
         {
             SetBulletClips(SaveScript.BulletClips, true);

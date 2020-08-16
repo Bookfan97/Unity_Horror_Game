@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Pickups : MonoBehaviour
 {
     private RaycastHit hit;
     [SerializeField] private float Distance = 4.0f;
     [SerializeField] private GameObject pickupMessage;
+    [SerializeField] private GameObject doorMessage;
     [SerializeField] GameObject PlayerArms;
+    [SerializeField] private Text DoorText;
     private AudioSource AudioPlayer;
     private float RayDistance;
-    private bool canSeePickup = false;
+    private bool canSeePickup = false, canSeeDoor = false;
     // Start is called before the first frame update
     void Start()
     {
         pickupMessage.gameObject.SetActive(false);
+        doorMessage.gameObject.SetActive(false);
         PlayerArms.gameObject.SetActive(false);
         RayDistance = Distance;
         AudioPlayer = GetComponent<AudioSource>();
@@ -145,12 +149,20 @@ public class Pickups : MonoBehaviour
             }                  
             else if (hit.transform.tag == "Door")
             {
-                canSeePickup = true;
+                canSeeDoor = true;
+                //canSeePickup = true;
+                if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == false)
+                {
+                    DoorText.text = "Press E to open";
+                }
+                if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == true)
+                {
+                    DoorText.text = "Press E to close";
+                }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     //Debug.Log("Door Open: " + hit.transform.gameObject);
                     hit.transform.gameObject.SendMessage("DoorOpen");
-                    
                 }
             }            
             else if (hit.transform.tag == "House Key")
@@ -195,6 +207,7 @@ public class Pickups : MonoBehaviour
             else
             {
                 canSeePickup = false;
+                canSeeDoor = false;
             }
         }
 
@@ -207,6 +220,18 @@ public class Pickups : MonoBehaviour
         if (canSeePickup == false)
         {
             pickupMessage.gameObject.SetActive(false);
+            RayDistance = Distance;
+        }        
+        
+        if (canSeeDoor == true)
+        {
+            doorMessage.gameObject.SetActive(true);
+            RayDistance = 1000f;
+        }
+
+        if (canSeeDoor == false)
+        {
+            doorMessage.gameObject.SetActive(false);
             RayDistance = Distance;
         }
         
