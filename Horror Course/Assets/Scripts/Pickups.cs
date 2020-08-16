@@ -151,18 +151,27 @@ public class Pickups : MonoBehaviour
             {
                 canSeeDoor = true;
                 //canSeePickup = true;
-                if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == false)
+                if (hit.transform.gameObject.GetComponent<DoorOpens>().Locked == false)
                 {
-                    DoorText.text = "Press E to open";
+                    if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == false)
+                    {
+                        DoorText.text = "Press E to open";
+                    }
+
+                    if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == true)
+                    {
+                        DoorText.text = "Press E to close";
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        //Debug.Log("Door Open: " + hit.transform.gameObject);
+                        hit.transform.gameObject.SendMessage("DoorOpen");
+                    }
                 }
-                if (hit.transform.gameObject.GetComponent<DoorOpens>().isOpen == true)
+                else if (hit.transform.gameObject.GetComponent<DoorOpens>().Locked == true)
                 {
-                    DoorText.text = "Press E to close";
-                }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    //Debug.Log("Door Open: " + hit.transform.gameObject);
-                    hit.transform.gameObject.SendMessage("DoorOpen");
+                    DoorText.text = "Please find the "+ hit.transform.gameObject.GetComponent<DoorOpens>().DoorType.ToString() +" key";
                 }
             }            
             else if (hit.transform.tag == "House Key")
