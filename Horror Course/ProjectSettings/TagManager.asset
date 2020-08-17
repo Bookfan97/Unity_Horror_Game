@@ -17,6 +17,8 @@ TagManager:
   - BulletClip
   - ArrowRefill
   - Door
+  - Fire
+  - Enemy
   layers:
   - Default
   - TransparentFX

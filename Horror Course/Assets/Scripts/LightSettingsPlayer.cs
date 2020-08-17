@@ -12,7 +12,8 @@ public class LightSettingsPlayer : MonoBehaviour
     [SerializeField] private PostProcessProfile Standard;
     [SerializeField] private PostProcessProfile NightVision;
     [SerializeField] private GameObject NightVisionHUD;
-    [SerializeField] private GameObject Flashlight;
+    [SerializeField] private GameObject Flashlight;    
+    [SerializeField] private GameObject EnemyFlashlight;
     [SerializeField] private Light theFlashlight;
     private bool NightVisionActive = false;
     private bool FlashlightActive = false;
@@ -25,6 +26,7 @@ public class LightSettingsPlayer : MonoBehaviour
     {
         NightVisionHUD.gameObject.SetActive(false);
         Flashlight.gameObject.SetActive(false);
+        EnemyFlashlight.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,6 +56,7 @@ public class LightSettingsPlayer : MonoBehaviour
             {
                 FlashlightActive = !FlashlightActive;
                 Flashlight.gameObject.SetActive(FlashlightActive);
+                EnemyFlashlight.gameObject.SetActive(FlashlightActive);
                 SaveScript.FlashlightOn = FlashlightActive;
                 /*if (SaveScript.currentBatteryPower <= 0.5f)
                 {
@@ -72,6 +75,7 @@ public class LightSettingsPlayer : MonoBehaviour
             {            
                 FlashlightActive = false; 
                 Flashlight.gameObject.SetActive(FlashlightActive);
+                EnemyFlashlight.gameObject.SetActive(FlashlightActive);
                 SaveScript.FlashlightOn = FlashlightActive;
             }
             else if (NightVisionActive)
