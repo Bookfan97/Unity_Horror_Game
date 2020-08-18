@@ -10,10 +10,13 @@ public class EnemyMovement : MonoBehaviour
     private Transform CurrentTarget;
     [SerializeField] private Transform[] targets;
     [SerializeField] private float stopDistance = 2.0f;
+    [SerializeField] private float waitTime = 2.0f;
+    [SerializeField] private bool randomizePoints;
     private float distanceToTarget;
     private int targetNumber = 0;
     private Animator _animator;
-    //private static readonly int State = Animator.StringToHash("State");
+    private bool Randomizer;
+    private int randomNextTarget;
     private bool hasStopped = false;
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,10 @@ public class EnemyMovement : MonoBehaviour
             _navMeshAgent.SetDestination(CurrentTarget.position);
             _animator.SetInteger("State", 0);
             _navMeshAgent.isStopped = false;
+            if (randomizePoints)
+            {
+                randomNextTarget = targetNumber;
+            }
         }
         if (distanceToTarget < stopDistance)
         {
@@ -44,18 +51,42 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator LookAround()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(waitTime);
         if (hasStopped == false)
         {
             hasStopped = true;
+            if (randomizePoints)
+            {
+                if (Randomizer)
+                {
+                    Randomizer = false;
+                    int randomNumber = Random.Range(0, targets.Length);
+                    if (targetNumber == randomNumber)
+                    {
+                        targetNumber++;
+                        if (randomNumber >= targets.Length) 
+                        { 
+                            targetNumber = 0;
+                        }
+                    }
+                    else
+                    {
+                        targetNumber = randomNumber;
+                    }
+                }
+            }
             targetNumber++;
             if (targetNumber >= targets.Length)
             {
                 targetNumber = 0;
             }
             SetTarget();
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(waitTime);
             hasStopped = false;
+            if (randomizePoints)
+            {
+                Randomizer = true;
+            }
         }
     }
 
