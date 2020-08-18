@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,8 +81,19 @@ public class DoorOpens : MonoBehaviour
         }
     }
 
-    public void DoorClose()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            if (Locked == false)
+            {
+                if (isOpen == false)
+                {
+                    _animator.SetTrigger("Open");
+                    _audioSource.Play();
+                    isOpen = true;
+                }
+            }
+        }
     }
 }
