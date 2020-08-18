@@ -7,22 +7,21 @@ using UnityEngine.Tilemaps;
 public class EnemyMovement : MonoBehaviour
 {
     private NavMeshAgent _navMeshAgent;
-
     private Transform CurrentTarget;
-
-    //change to array
     [SerializeField] private Transform[] targets;
-    //[SerializeField] private Transform target2;
     [SerializeField] private float stopDistance = 2.0f;
     private float distanceToTarget;
-
     private int targetNumber = 0;
-
+    private Animator _animator;
+    //private static readonly int State = Animator.StringToHash("State");
+    private bool hasStopped = false;
     // Start is called before the first frame update
     void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
         CurrentTarget = targets[0];
+        hasStopped = false;
     }
 
     // Update is called once per frame
@@ -32,30 +31,41 @@ public class EnemyMovement : MonoBehaviour
         if (distanceToTarget > stopDistance)
         {
             _navMeshAgent.SetDestination(CurrentTarget.position);
+            _animator.SetInteger("State", 0);
+            _navMeshAgent.isStopped = false;
         }
-
         if (distanceToTarget < stopDistance)
         {
-            targetNumber++;
-            if (targetNumber >= targets.Length)
-            {
-                targetNumber = 1;
-            }
-            else
-            {
-                CurrentTarget  = targets[targetNumber];
-            }
-            //SetTarget(targetNumber);
+            _navMeshAgent.isStopped = true;
+            _animator.SetInteger("State", 1);
+            StartCoroutine(LookAround());
         }
     }
 
-    private void SetTarget(int targetNum)
+    IEnumerator LookAround()
+    {
+        yield return new WaitForSeconds(2.0f);
+        if (hasStopped == false)
+        {
+            hasStopped = true;
+            targetNumber++;
+            if (targetNumber >= targets.Length)
+            {
+                targetNumber = 0;
+            }
+            SetTarget();
+            yield return new WaitForSeconds(2.0f);
+            hasStopped = false;
+        }
+    }
+
+    private void SetTarget()
     {
         for (int i = 0; i < targets.Length; i++)
         {
-            if (i == targetNum)
+            if (i == targetNumber)
             {
-                targets[i] = CurrentTarget;
+                CurrentTarget = targets[i];
             }
         }
     }
