@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,10 +21,13 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float AttackDistance = 2.3f;
     [SerializeField] private float attackRotateSpeed = 2.0f;
     [SerializeField] private float CheckTime = 3.0f;
+    [SerializeField] private GameObject ChaseMusic;
+   
     // Start is called before the first frame update
     void Start()
     {
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
+        ChaseMusic.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -41,12 +45,14 @@ public class EnemyAttack : MonoBehaviour
                 {
                     Debug.Log("I can see you, you may want to run");
                     runToPlayer = true;
+                    FailedChecks = 0;
                 }
                 if (blocked == true)
                 {
                     Debug.Log("Missed it by that much");
                     runToPlayer = false;
                     _animator.SetInteger("State", 1);
+                    FailedChecks++;
                 }
                 StartCoroutine(TimedCheck());
             }
@@ -55,21 +61,25 @@ public class EnemyAttack : MonoBehaviour
         if (runToPlayer == true)
         {
             Enemy.GetComponent<EnemyMovement>().enabled = false;
+            ChaseMusic.gameObject.SetActive(true);
             if (distanceToPlayer > AttackDistance)
             {
                 _navMeshAgent.isStopped = false;
                 _animator.SetInteger("State", 2);
-                _navMeshAgent.acceleration = 24;
+                _navMeshAgent.acceleration = 180;
                 _navMeshAgent.SetDestination(Player.position);
                 _navMeshAgent.speed = chaseSpeed;
             }
 
-            if (distanceToPlayer < AttackDistance)
+            if (distanceToPlayer < AttackDistance - 0.5f)
             {
                 _navMeshAgent.isStopped = true;
                 Debug.Log("Finish him!");
-                //_animator.SetInteger("State", 2);
-                _navMeshAgent.acceleration = 180;
+                _animator.SetInteger("State", 3);
+                _navMeshAgent.acceleration = 24;
+                Vector3 Position = (Player.position - Enemy.transform.position).normalized;
+                Quaternion PostionRotation = Quaternion.LookRotation(new Vector3(Position.x,0, Position.z));
+                Enemy.transform.rotation = Quaternion.Slerp(Enemy.transform.rotation, PostionRotation, Time.deltaTime);
             }
         }
         else if (runToPlayer == false) 
@@ -78,9 +88,25 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            runToPlayer = true;
+        }
+    }
+
     IEnumerator TimedCheck()
     {
         yield return new WaitForSeconds(CheckTime);
         isChecking = true;
+        if (FailedChecks > MaxChecks)
+        {
+            Enemy.GetComponent<EnemyMovement>().enabled = true;
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.speed = walkSpeed;
+            FailedChecks = 0;
+            ChaseMusic.gameObject.SetActive(false);
+        }
     }
 }
