@@ -11,6 +11,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+        public static FirstPersonController instance;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -34,6 +35,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float refillRate = 0.25f;
         [SerializeField] private GameObject LightBreathing;
         [SerializeField] private GameObject HeavyBreathing;
+        [SerializeField] private float lightBreathingValue = 3.0f;
+        [SerializeField] private float heavyBreathingValue = 1.5f;
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -51,6 +54,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool islightBreathing = false;
         private bool isheavyBreathing = false;
         
+        public float Stamina1 => Stamina;
+        public float MAXStamina => maxStamina;
+        public float HeavyBreathingValue => heavyBreathingValue;
+        public float LightBreathingValue => lightBreathingValue;
+        private void Awake()
+        {
+            instance = this;
+        }
+
         // Use this for initialization
         private void Start()
         {
@@ -73,10 +85,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
-            //Shorten this code
             if (islightBreathing == false)
             {
-                if (Stamina < 3)
+                if (Stamina < lightBreathingValue)
                 {
                     LightBreathing.gameObject.SetActive(true);
                     HeavyBreathing.gameObject.SetActive(false);
@@ -85,7 +96,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }           
             if (islightBreathing)
             {
-                if (Stamina > 3)
+                if (Stamina > lightBreathingValue)
                 {
                     LightBreathing.gameObject.SetActive(false);
                     HeavyBreathing.gameObject.SetActive(false);
@@ -95,7 +106,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             if (isheavyBreathing == false)
             {
-                if (Stamina < 1.5)
+                if (Stamina < heavyBreathingValue)
                 {
                     LightBreathing.gameObject.SetActive(false);
                     HeavyBreathing.gameObject.SetActive(true);
@@ -105,15 +116,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }           
             if (isheavyBreathing)
             {
-                if (Stamina > 1.5)
+                if (Stamina > heavyBreathingValue)
                 {
                     LightBreathing.gameObject.SetActive(false);
                     HeavyBreathing.gameObject.SetActive(false);
                     isheavyBreathing = false;
-                    
                 }
             }
-            //
+            LightBreathing.gameObject.SetActive(islightBreathing);
+            HeavyBreathing.gameObject.SetActive(isheavyBreathing);
             if (Stamina<=0.1)
             {
                 Stamina = 0.1f;
