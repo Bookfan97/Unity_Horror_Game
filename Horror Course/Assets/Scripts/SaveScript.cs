@@ -23,4 +23,7 @@ public class SaveScript : MonoBehaviour
     public static bool HouseKey = false;    
     public static bool CabinKey = false;   
     public static bool RoomKey = false;
+    public static bool HaveKnife = false;
+    public static bool HaveBat = false;
+    public static bool HaveAxe = false;
 }

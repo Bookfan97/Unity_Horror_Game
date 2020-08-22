@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour
     {
         MaxBattery = BatteryPower.instance.MaxBatteryTime1;
         Debug.Log(MaxBattery);
-        Anim = GetComponent<Animator>();
+        Anim = playerArms.GetComponent<Animator>();
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
         SetBatteries(batteryButton.Length, false);
@@ -283,29 +283,52 @@ public class Inventory : MonoBehaviour
 
     public void EquipWeapon(GameObject weaponEquip)
     {
-        Debug.Log("Weapon :" + weaponEquip);
+        Debug.Log("Weapon: " + weaponEquip);
+        Debug.Log("Knife Test:" + (weaponEquip==Knife) );
         playerArms.gameObject.SetActive(true);
         WeaponsOff();
         weaponEquip.gameObject.SetActive(true);
-        /*if (weaponEquip == Handgun)
+        if (weaponEquip.gameObject == Handgun.gameObject)
         {
             Anim.SetBool("Melee", false);
             AudioPlayer.clip = gunShot;
         }
-        else if (weaponEquip == Crossbow)
+        if (weaponEquip == Crossbow)
         {
             Anim.SetBool("Melee", false);
             AudioPlayer.clip = arrowShot;
         }
-        else
-        {
+        if(weaponEquip == Knife || weaponEquip == Bat || weaponEquip == Axe)
+        {   
             Anim.SetBool("Melee", true);
             AudioPlayer.clip = weaponChange;
-        }*/
+            SaveMelee();
+            if (weaponEquip == Knife)
+            {
+                //Debug.Log("Anim Param: " + Anim.GetParameter(1));
+                SaveScript.HaveKnife = true;
+            }
+            if (weaponEquip == Bat)
+            {
+                SaveScript.HaveBat = true;
+            }
+            if (weaponEquip == Axe)
+            {
+                SaveScript.HaveAxe = true;
+            }
+         
+        }
         AudioPlayer.Play();
     }
 
-   private void WeaponsOff()
+    private void SaveMelee()
+    {
+        SaveScript.HaveKnife = false;
+        SaveScript.HaveBat = false;
+        SaveScript.HaveAxe = false;
+    }
+
+    private void WeaponsOff()
    {
        Axe.gameObject.SetActive(false);
        Bat.gameObject.SetActive(false);

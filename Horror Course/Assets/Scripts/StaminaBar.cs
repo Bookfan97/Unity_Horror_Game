@@ -8,13 +8,18 @@ public class StaminaBar : MonoBehaviour
 {
     [SerializeField] Slider healthSlider;
     public Image Fill;
+    private float max;
+    private float lb; 
+    private float hb; 
     //private FirstPersonController FPController;
     // Start is called before the first frame update
     void Start()
     {
-        //FPController = GetComponent<FirstPersonController>();
+        max = FirstPersonController.instance.MAXStamina;
+        lb  = FirstPersonController.instance.LightBreathingValue;
+        hb = FirstPersonController.instance.HeavyBreathingValue;
         healthSlider.minValue = 0;
-        healthSlider.maxValue = FirstPersonController.instance.MAXStamina;
+        healthSlider.maxValue = max;
         healthSlider.value = FirstPersonController.instance.Stamina1;
         Fill.color = Color.blue;
     }
@@ -24,15 +29,15 @@ public class StaminaBar : MonoBehaviour
     {
         float stamina = FirstPersonController.instance.Stamina1;
         healthSlider.value = stamina;
-        if (stamina > FirstPersonController.instance.LightBreathingValue)
+        if (stamina > lb)
         {
             Fill.color = Color.blue;
         }      
-        if (stamina <= FirstPersonController.instance.LightBreathingValue)
+        if (stamina <= lb)
         {
             Fill.color = Color.yellow;
         }
-        if (stamina <= FirstPersonController.instance.HeavyBreathingValue)
+        if (stamina <= hb)
         {
             Fill.color = Color.red;
         }
