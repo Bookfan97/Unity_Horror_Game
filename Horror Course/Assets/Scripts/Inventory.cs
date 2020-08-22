@@ -143,6 +143,7 @@ public class Inventory : MonoBehaviour
             InventoryActive = !InventoryActive;
             InventoryMenu.gameObject.SetActive(InventoryActive);
             Cursor.visible = InventoryActive;
+            SaveMelee();
             if (InventoryActive)
             {
                 //Cursor.visible = true;
