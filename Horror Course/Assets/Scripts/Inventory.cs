@@ -46,7 +46,7 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         MaxBattery = BatteryPower.instance.MaxBatteryTime1;
-        Debug.Log(MaxBattery);
+        //Debug.Log(MaxBattery);
         Anim = playerArms.GetComponent<Animator>();
         InventoryMenu.gameObject.SetActive(false);
         SetApples(appleButton.Length,false);
@@ -143,7 +143,7 @@ public class Inventory : MonoBehaviour
             InventoryActive = !InventoryActive;
             InventoryMenu.gameObject.SetActive(InventoryActive);
             Cursor.visible = InventoryActive;
-            SaveMelee();
+            //SaveMelee();
             if (InventoryActive)
             {
                 //Cursor.visible = true;
@@ -197,18 +197,21 @@ public class Inventory : MonoBehaviour
         {
             KnifeImage.gameObject.SetActive(true);
             KnifeButton.gameObject.SetActive(true);
+           // SaveScript.HaveKnife = true;
         }
 
         if (SaveScript.Bat)
         {
             BatImage.gameObject.SetActive(true);
             BatButton.gameObject.SetActive(true);
+            //SaveScript.HaveBat = true;
         }
 
         if (SaveScript.Axe)
         {
             AxeImage.gameObject.SetActive(true);
             AxeButton.gameObject.SetActive(true);
+           // SaveScript.HaveAxe = true;
         }
 
         if (SaveScript.HandGun)
@@ -284,10 +287,10 @@ public class Inventory : MonoBehaviour
 
     public void EquipWeapon(GameObject weaponEquip)
     {
-        Debug.Log("Weapon: " + weaponEquip);
-        Debug.Log("Knife Test:" + (weaponEquip==Knife) );
+        //Debug.Log("Weapon: " + weaponEquip);
+        //Debug.Log("Knife Test:" + (weaponEquip==Knife) );
         playerArms.gameObject.SetActive(true);
-        WeaponsOff();
+        //WeaponsOff();
         weaponEquip.gameObject.SetActive(true);
         if (weaponEquip.gameObject == Handgun.gameObject)
         {
@@ -302,9 +305,10 @@ public class Inventory : MonoBehaviour
         if(weaponEquip == Knife || weaponEquip == Bat || weaponEquip == Axe)
         {   
             Anim.SetBool("Melee", true);
+            Anim.SetBool("Melee", true);
             AudioPlayer.clip = weaponChange;
             SaveMelee();
-            if (weaponEquip == Knife)
+            if (weaponEquip.gameObject == Knife.gameObject)
             {
                 //Debug.Log("Anim Param: " + Anim.GetParameter(1));
                 SaveScript.HaveKnife = true;
@@ -317,7 +321,6 @@ public class Inventory : MonoBehaviour
             {
                 SaveScript.HaveAxe = true;
             }
-         
         }
         AudioPlayer.Play();
     }

@@ -48,46 +48,48 @@ public class EnemyAttack : MonoBehaviour
                     runToPlayer = true;
                     FailedChecks = 0;
                 }
+
                 if (blocked == true)
                 {
-                   // Debug.Log("Missed it by that much");
+                    // Debug.Log("Missed it by that much");
                     runToPlayer = false;
                     _animator.SetInteger("State", 1);
                     FailedChecks++;
                 }
+
                 StartCoroutine(TimedCheck());
             }
-        }
 
-        if (runToPlayer == true)
-        {
-            Enemy.GetComponent<EnemyMovement>().enabled = false;
-            ChaseMusic.gameObject.SetActive(true);
-            if (distanceToPlayer > AttackDistance)
+            if (runToPlayer == true)
             {
-                _navMeshAgent.isStopped = false;
-                _animator.SetInteger("State", 2);
-                _navMeshAgent.acceleration = 24;
-                _navMeshAgent.SetDestination(Player.position);
-                _navMeshAgent.speed = chaseSpeed;
-                HurtUI.gameObject.SetActive(false);
-            }
+                Enemy.GetComponent<EnemyMovement>().enabled = false;
+                ChaseMusic.gameObject.SetActive(true);
+                if (distanceToPlayer > AttackDistance)
+                {
+                    _navMeshAgent.isStopped = false;
+                    _animator.SetInteger("State", 2);
+                    _navMeshAgent.acceleration = 24;
+                    _navMeshAgent.SetDestination(Player.position);
+                    _navMeshAgent.speed = chaseSpeed;
+                    HurtUI.gameObject.SetActive(false);
+                }
 
-            if (distanceToPlayer < AttackDistance - 0.5f)
+                if (distanceToPlayer < AttackDistance - 0.5f)
+                {
+                    _navMeshAgent.isStopped = true;
+                    // Debug.Log("Finish him!");
+                    _animator.SetInteger("State", 3);
+                    _navMeshAgent.acceleration = 180;
+                    HurtUI.gameObject.SetActive(true);
+                    Vector3 Position = (Player.position - Enemy.transform.position).normalized;
+                    Quaternion PostionRotation = Quaternion.LookRotation(new Vector3(Position.x, 0, Position.z));
+                    Enemy.transform.rotation = Quaternion.Slerp(Enemy.transform.rotation, PostionRotation, Time.deltaTime);
+                }
+            }
+            else if (runToPlayer == false)
             {
                 _navMeshAgent.isStopped = true;
-               // Debug.Log("Finish him!");
-                _animator.SetInteger("State", 3);
-                _navMeshAgent.acceleration = 180;
-                HurtUI.gameObject.SetActive(true);
-                Vector3 Position = (Player.position - Enemy.transform.position).normalized;
-                Quaternion PostionRotation = Quaternion.LookRotation(new Vector3(Position.x,0, Position.z));
-                Enemy.transform.rotation = Quaternion.Slerp(Enemy.transform.rotation, PostionRotation, Time.deltaTime);
             }
-        }
-        else if (runToPlayer == false) 
-        { 
-            _navMeshAgent.isStopped = true; 
         }
     }
 

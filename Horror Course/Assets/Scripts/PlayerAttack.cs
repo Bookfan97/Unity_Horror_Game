@@ -5,33 +5,36 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     private Animator _animator;
+    [SerializeField] private GameObject FPSarms;
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponentInParent<Animator>();
-        Debug.Log("Animator: "+ _animator);
+        _animator = FPSarms.GetComponent<Animator>();
+        //Debug.Log("Animator: "+ _animator);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("_HaveKnife = "+ SaveScript.HaveKnife );
         if (SaveScript.HaveKnife)
         {
-            Debug.Log("_HaveKnife");
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            //Debug.Log("_HaveKnife = "+ SaveScript.HaveKnife );
+            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                Debug.Log("_HaveKnife + LMB");
+                //Debug.Log("_HaveKnife + LMB");
                 _animator.SetTrigger("KnifeLMB");
+                //_animator.Play("KnifeLMB");
             }            
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Debug.Log("_HaveKnife + RMB");
+                //Debug.Log("_HaveKnife + RMB");
                 _animator.SetTrigger("KnifeRMB");
             }
         }        
         if (SaveScript.HaveBat)
         {
-            Debug.Log("_HaveBat");
+            //Debug.Log("_HaveBat");
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 _animator.SetTrigger("BatLMB");
@@ -43,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
         }        
         if (SaveScript.HaveAxe)
         {
-            Debug.Log("_HaveAxe");
+            //Debug.Log("_HaveAxe");
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 _animator.SetTrigger("AxeLMB");
