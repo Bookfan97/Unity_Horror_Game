@@ -23,7 +23,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float CheckTime = 3.0f;
     [SerializeField] private GameObject ChaseMusic;
     [SerializeField] private GameObject HurtUI;
-   
+    [SerializeField] private GameObject EnemyDamageZone;   
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +35,10 @@ public class EnemyAttack : MonoBehaviour
     void Update()
     {
         distanceToPlayer = Vector3.Distance(Player.position, Enemy.transform.position);
+        if (EnemyDamageZone.GetComponent<EnemyDamage>().HasDied == true)
+        {
+            ChaseMusic.gameObject.SetActive(false);
+        }
         if (distanceToPlayer < MaxRange)
         {
             if (isChecking == true)
@@ -63,7 +67,11 @@ public class EnemyAttack : MonoBehaviour
             if (runToPlayer == true)
             {
                 Enemy.GetComponent<EnemyMovement>().enabled = false;
-                ChaseMusic.gameObject.SetActive(true);
+                
+                if (EnemyDamageZone.GetComponent<EnemyDamage>().HasDied == false)
+                {
+                    ChaseMusic.gameObject.SetActive(true);
+                }
                 if (distanceToPlayer > AttackDistance)
                 {
                     _navMeshAgent.isStopped = false;
@@ -100,9 +108,17 @@ public class EnemyAttack : MonoBehaviour
             runToPlayer = true;
         }
 
-        if (other.gameObject.CompareTag("Knife"))
+        if (other.gameObject.CompareTag("PKnife"))
         {
             _animator.SetTrigger("SmallReact");
+        }
+        if (other.gameObject.CompareTag("PBat"))
+        {
+            _animator.SetTrigger("SmallReact");
+        }
+        if (other.gameObject.CompareTag("PAxe"))
+        {
+            _animator.SetTrigger("BigReact");
         }
     }
 

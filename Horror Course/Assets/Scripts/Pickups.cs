@@ -40,7 +40,6 @@ public class Pickups : MonoBehaviour
                         AudioPlayer.Play();
                         SaveScript.Apples++;
                     }
-                    
                 }
             }
             else if (hit.transform.tag == "Battery")

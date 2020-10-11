@@ -8,6 +8,7 @@ public class EnemyWeaponDamage : MonoBehaviour
     [SerializeField] private int WeaponDamage = 10;
     [SerializeField] private Animator hurtAnim;
     [SerializeField] private AudioSource stabSound;
+    [SerializeField] private GameObject FPSArms;
     private bool hitActive = false;
 
     private void OnTriggerEnter(Collider other)
@@ -21,6 +22,7 @@ public class EnemyWeaponDamage : MonoBehaviour
                 SaveScript.PlayerHealth -= WeaponDamage;
                 SaveScript.healthChanged = true;
                 stabSound.Play();
+                FPSArms.GetComponent<PlayerAttack>().AttackStamina -= 0.2f;
             }
         }
     }

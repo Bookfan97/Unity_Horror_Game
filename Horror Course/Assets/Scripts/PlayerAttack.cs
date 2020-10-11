@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator _animator;
     [SerializeField] private GameObject FPSarms;
     [SerializeField] private GameObject Knife;
-    private float AttackStamina = 10;
+    public float AttackStamina = 10;
     [SerializeField] private float MaxAttackStamina = 10;
     [SerializeField] private float AttackRefill = 1;
     [SerializeField] private float AttackDrain = 2;
