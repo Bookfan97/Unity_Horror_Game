@@ -170,7 +170,7 @@ public class Pickups : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.GetComponent<DoorOpens>().Locked == true)
                 {
-                    DoorText.text = "Please find the "+ hit.transform.gameObject.GetComponent<DoorOpens>().DoorType.ToString() +" key";
+                    DoorText.text = "Please find the " + hit.transform.gameObject.GetComponent<DoorOpens>().DoorType +" key";
                 }
             }            
             else if (hit.transform.tag == "House Key")

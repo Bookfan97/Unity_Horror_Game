@@ -15,7 +15,7 @@ public class DoorOpens : MonoBehaviour
     [SerializeField] private bool Room;
     [SerializeField] private bool House;
     public bool Locked = true;
-    public string DoorType = "";
+    public string DoorType = "...";
     // Start is called before the first frame update
     void Start()
     {
