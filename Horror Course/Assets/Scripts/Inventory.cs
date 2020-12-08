@@ -312,7 +312,8 @@ public class Inventory : MonoBehaviour
         }
         if(weaponEquip == Knife || weaponEquip == Bat || weaponEquip == Axe)
         {   
-            Anim.SetBool("Melee", true);
+            Anim.SetBool("Ready", true);
+            Anim.SetBool("GunAim", false);
             AudioPlayer.clip = weaponChange;
             //SaveMelee();
             if (weaponEquip.gameObject == Knife.gameObject)
