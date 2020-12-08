@@ -11,12 +11,15 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float MaxAttackStamina = 10;
     [SerializeField] private float AttackRefill = 1;
     [SerializeField] private float AttackDrain = 2;
-
+    [SerializeField] private GameObject Crosshair;
+    [SerializeField] private GameObject Pointer;
     // Start is called before the first frame update
     void Start()
     {
         _animator = FPSarms.GetComponent<Animator>();
         AttackStamina = MaxAttackStamina;
+        Crosshair.gameObject.SetActive(false);
+        Pointer.gameObject.SetActive(true);
         //Debug.Log("Animator: "+ _animator);
     }
 
@@ -85,6 +88,22 @@ public class PlayerAttack : MonoBehaviour
                 {
                     _animator.SetTrigger("AxeRMB");
                     AttackStamina -= AttackDrain;
+                }
+            }
+            
+            if (SaveScript.HaveGun)
+            {
+                if (Input.GetKey(KeyCode.Mouse1))
+                {
+                    _animator.SetBool("AimGun", true);
+                    Crosshair.gameObject.SetActive(true);
+                    Pointer.gameObject.SetActive(false);
+                }
+                if (Input.GetKeyUp(KeyCode.Mouse1))
+                {
+                    _animator.SetBool("AimGun", false);
+                    Crosshair.gameObject.SetActive(true);
+                    Pointer.gameObject.SetActive(false);
                 }
             }
         }

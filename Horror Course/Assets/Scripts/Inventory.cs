@@ -72,6 +72,7 @@ public class Inventory : MonoBehaviour
         Cursor.visible = false;
     }
 
+    #region SetUIImages
     private void SetBatteries(int numMax, bool toSet)
     {
         if (numMax > batteryButton.Length)
@@ -134,33 +135,9 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))// || Input.GetKeyDown(KeyCode.I))
-        {
-            InventoryActive = !InventoryActive;
-            InventoryMenu.gameObject.SetActive(InventoryActive);
-            Cursor.visible = InventoryActive;
-            //SaveMelee();
-            if (InventoryActive)
-            {
-                //Cursor.visible = true;
-                Time.timeScale = 0.0f;
-            }
-            else
-            {
-                //Cursor.visible = false;
-                Time.timeScale = 1f;
-            }
-        }
-        CheckInventory();
-        CheckAmmo();
-        CheckKeys();
-        CheckWeapons();
-    }
-
+    #endregion
+    
+    #region Checks
     private void CheckInventory()
     {
         if (SaveScript.Apples >= 1)
@@ -240,7 +217,34 @@ public class Inventory : MonoBehaviour
             ArrowRefillImage.gameObject.SetActive(true);
         }
     }
+    #endregion
 
+    #region Updates
+    // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))// || Input.GetKeyDown(KeyCode.I))
+            {
+                InventoryActive = !InventoryActive;
+                InventoryMenu.gameObject.SetActive(InventoryActive);
+                Cursor.visible = InventoryActive;
+                //SaveMelee();
+                if (InventoryActive)
+                {
+                    //Cursor.visible = true;
+                    Time.timeScale = 0.0f;
+                }
+                else
+                {
+                    //Cursor.visible = false;
+                    Time.timeScale = 1f;
+                }
+            }
+            CheckInventory();
+            CheckAmmo();
+            CheckKeys();
+            CheckWeapons();
+        }
     public void HealthUpdate()
     {
         if (SaveScript.PlayerHealth < 100)
@@ -285,17 +289,21 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    #endregion
+    
     public void EquipWeapon(GameObject weaponEquip)
     {
         //Debug.Log("Weapon: " + weaponEquip);
         //Debug.Log("Knife Test:" + (weaponEquip==Knife) );
         playerArms.gameObject.SetActive(true);
-        //WeaponsOff();
+        WeaponsOff();
         weaponEquip.gameObject.SetActive(true);
         if (weaponEquip.gameObject == Handgun.gameObject)
         {
             Anim.SetBool("Melee", false);
+            Anim.SetBool("GunAim", true);
             AudioPlayer.clip = gunShot;
+            SaveScript.HaveGun = true;
         }
         if (weaponEquip == Crossbow)
         {
@@ -305,9 +313,8 @@ public class Inventory : MonoBehaviour
         if(weaponEquip == Knife || weaponEquip == Bat || weaponEquip == Axe)
         {   
             Anim.SetBool("Melee", true);
-            Anim.SetBool("Melee", true);
             AudioPlayer.clip = weaponChange;
-            SaveMelee();
+            //SaveMelee();
             if (weaponEquip.gameObject == Knife.gameObject)
             {
                 //Debug.Log("Anim Param: " + Anim.GetParameter(1));
@@ -325,12 +332,14 @@ public class Inventory : MonoBehaviour
         AudioPlayer.Play();
     }
 
+    /*
     private void SaveMelee()
     {
         SaveScript.HaveKnife = false;
         SaveScript.HaveBat = false;
         SaveScript.HaveAxe = false;
     }
+    */
 
     private void WeaponsOff()
    {
@@ -339,5 +348,9 @@ public class Inventory : MonoBehaviour
        Knife.gameObject.SetActive(false);
        Handgun.gameObject.SetActive(false);
        Crossbow.gameObject.SetActive(false);
+       SaveScript.HaveKnife = false;
+       SaveScript.HaveBat = false;
+       SaveScript.HaveAxe = false;
+       SaveScript.HaveGun = false;
    }
 }

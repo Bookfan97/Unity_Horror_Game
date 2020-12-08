@@ -13,8 +13,8 @@ public class EnemyDamage : MonoBehaviour
     private Animator Anim;
     [SerializeField] private GameObject EnemyObject;
     [SerializeField] private GameObject BloodSplatKnife;
-    [SerializeField] private GameObject BloodSplatBat;
-    [SerializeField] private GameObject BloodSplatAxe;
+    [SerializeField] private GameObject BloodSplatBat = null;
+    [SerializeField] private GameObject BloodSplatAxe = null;
     // Start is called before the first frame update
     void Start()
     {
